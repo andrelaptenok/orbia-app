@@ -1,0 +1,55 @@
+.tablePanelTable {
+  flex-basis: 60%;
+}
+
+.tablePanelBalanced {
+  flex-basis: 45%;
+}
+
+.tablePanelGlobe {
+  flex-basis: 35%;
+}
+
+.globePanelTable {
+  flex-basis: 40%;
+}
+
+.globePanelBalanced {
+  flex-basis: 55%;
+}
+
+.globePanelGlobe {
+  flex-basis: 65%;
+}
+
+.skeletonRow0 {
+  width: 88%;
+}
+
+.skeletonRow1 {
+  width: 85%;
+}
+
+.skeletonRow2 {
+  width: 80%;
+}
+
+.skeletonRow3 {
+  width: 76%;
+}
+
+.skeletonRow4 {
+  width: 72%;
+}
+
+.skeletonRow5 {
+  width: 68%;
+}
+
+.skeletonRow6 {
+  width: 64%;
+}
+
+.skeletonRowDefault {
+  width: 60%;
+}

@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --orbia-bg: radial-gradient(circle at top, #0f172a 0, #020617 55%, #020617 100%);
+  --orbia-grid-color: rgba(148, 163, 184, 0.07);
+  --orbia-accent: #fbbf24;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-gutter: stable both-edges;
+  -webkit-overflow-scrolling: touch;
+  color: #e5e7eb;
+  background:
+    radial-gradient(circle at top left, rgba(251, 191, 36, 0.12), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.18), transparent 60%),
+    var(--orbia-bg);
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.45;
+  background-image:
+    linear-gradient(to right, var(--orbia-grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--orbia-grid-color) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mix-blend-mode: soft-light;
+  z-index: -1;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+kbd {
+  border-radius: 0.375rem;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  padding: 0.1rem 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background-color: rgba(15, 23, 42, 0.6);
+  color: #e5e7eb;
+}
