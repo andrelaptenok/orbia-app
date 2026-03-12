@@ -2,6 +2,8 @@
 
 Orbia is a React + TypeScript app for exploring countries of the world via an interactive 3D globe and a data‑driven table.
 
+The app is deployed on Vercel. Live: [**Orbia World Explorer**](https://orbia-app-blond.vercel.app/)
+
 ---
 
 ## Overview

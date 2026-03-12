@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://orbia-app-blond.vercel.app/sitemap.xml
+
