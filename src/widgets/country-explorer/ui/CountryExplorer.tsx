@@ -1,11 +1,13 @@
+import { Suspense, lazy } from "react";
 import { CountryTable } from "@features/country-table";
-import { GlobeViewer } from "@features/country-globe";
 import { CountryDetailPanel } from "@entities/country";
 import { useCountryExplorer } from "@widgets/country-explorer";
 import { ExplorerHeader } from "@widgets/country-explorer/ui/ExplorerHeader.tsx";
 import { ExplorerErrorPanel } from "@widgets/country-explorer/ui/ExplorerErrorPanel.tsx";
 import { ExplorerTableSkeleton } from "@widgets/country-explorer/ui/ExplorerTableSkeleton.tsx";
 import layoutStyles from "./CountryExplorerLayout.module.css";
+
+const GlobeViewerLazy = lazy(() => import("@features/country-globe/ui/GlobeViewer.tsx"));
 
 export function CountryExplorer() {
   const {
@@ -69,12 +71,20 @@ export function CountryExplorer() {
         <div
           className={`relative h-[50vh] min-h-[260px] w-full max-w-3xl flex-1 overflow-hidden rounded-2xl border border-zinc-700/80 bg-zinc-950/90 shadow-[0_20px_80px_rgba(15,23,42,0.95)] backdrop-blur-2xl md:h-[60vh] md:min-h-[280px] ${globePanelClass}`}
         >
-          <GlobeViewer
-            onCountrySelect={(code: string) => setSelectedCountryCode(code)}
-            onCountryHover={(code: string | null) => setHoveredCountryCode(code)}
-            highlightedCountryCode={highlightedCode}
-            selectedCountryCode={selectedCountryCode}
-          />
+          <Suspense
+            fallback={
+              <div className="flex h-full items-center justify-center text-xs text-zinc-500">
+                Loading globe…
+              </div>
+            }
+          >
+            <GlobeViewerLazy
+              onCountrySelect={(code: string) => setSelectedCountryCode(code)}
+              onCountryHover={(code: string | null) => setHoveredCountryCode(code)}
+              highlightedCountryCode={highlightedCode}
+              selectedCountryCode={selectedCountryCode}
+            />
+          </Suspense>
           <CountryDetailPanel
             country={selectedCountry}
             onClose={() => setSelectedCountryCode(null)}

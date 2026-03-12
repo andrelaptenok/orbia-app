@@ -12,7 +12,7 @@ interface GlobeViewerProps {
   selectedCountryCode?: string | null;
 }
 
-export function GlobeViewer(props: GlobeViewerProps) {
+function GlobeViewer(props: GlobeViewerProps) {
   const { onCountrySelect, onCountryHover, highlightedCountryCode, selectedCountryCode } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -113,3 +113,5 @@ export function GlobeViewer(props: GlobeViewerProps) {
     </div>
   );
 }
+
+export default GlobeViewer;
