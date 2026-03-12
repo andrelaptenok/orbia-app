@@ -29,6 +29,7 @@ export interface GlobeSceneApi {
   setOnCountrySelect: (cb: ((code: string) => void) | null) => void;
   setOnCountryHover: (cb: ((code: string | null) => void) | null) => void;
   setHighlightedCountry: (code: string | null) => void;
+  setHoverCountry: (code: string | null) => void;
   addCountries: (countries: Country[]) => void;
   rotateToCountry: (code: string) => void;
 }
@@ -112,9 +113,15 @@ export function createGlobeScene(): GlobeSceneApi {
     return typeof code === "string" ? code : null;
   }
 
+  let selectedCode: string | null = null;
   let currentHoverCode: string | null = null;
   let lastHoverCheck = 0;
   let lastHoverChange = 0;
+
+  function applyHighlight(): void {
+    const effectiveCode = currentHoverCode ?? selectedCode;
+    countryMarkers.setHighlighted(effectiveCode);
+  }
 
   function onPointerMove(event: MouseEvent): void {
     if (!onCountryHover || event.buttons !== 0) return;
@@ -132,6 +139,7 @@ export function createGlobeScene(): GlobeSceneApi {
 
     currentHoverCode = code;
     lastHoverChange = now;
+    applyHighlight();
     onCountryHover(code);
   }
 
@@ -234,7 +242,13 @@ export function createGlobeScene(): GlobeSceneApi {
   }
 
   const setHighlightedCountry = (code: string | null): void => {
-    countryMarkers.setHighlighted(code);
+    selectedCode = code;
+    applyHighlight();
+  };
+
+  const setHoverCountry = (code: string | null): void => {
+    currentHoverCode = code;
+    applyHighlight();
   };
 
   return {
@@ -248,6 +262,7 @@ export function createGlobeScene(): GlobeSceneApi {
     setOnCountrySelect,
     setOnCountryHover,
     setHighlightedCountry,
+    setHoverCountry,
     addCountries: countryMarkers.addCountries,
     rotateToCountry,
   };

@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { lazy, Suspense } from "react";
 import { CountryTable } from "@features/country-table";
 import { CountryDetailPanel } from "@entities/country";
 import { useCountryExplorer } from "@widgets/country-explorer";
@@ -17,7 +17,6 @@ export function CountryExplorer() {
     error,
     refetch,
     selectedCountry,
-    highlightedCode,
     selectedCountryCode,
     setSelectedCountryCode,
     hoveredCountryCode,
@@ -81,7 +80,7 @@ export function CountryExplorer() {
             <GlobeViewerLazy
               onCountrySelect={(code: string) => setSelectedCountryCode(code)}
               onCountryHover={(code: string | null) => setHoveredCountryCode(code)}
-              highlightedCountryCode={highlightedCode}
+              hoveredCountryCode={hoveredCountryCode}
               selectedCountryCode={selectedCountryCode}
             />
           </Suspense>

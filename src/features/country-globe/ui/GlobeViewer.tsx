@@ -8,12 +8,12 @@ import styles from "./GlobeViewer.module.css";
 interface GlobeViewerProps {
   onCountrySelect?: (code: string) => void;
   onCountryHover?: (code: string | null) => void;
-  highlightedCountryCode?: string | null;
+  hoveredCountryCode?: string | null;
   selectedCountryCode?: string | null;
 }
 
 function GlobeViewer(props: GlobeViewerProps) {
-  const { onCountrySelect, onCountryHover, highlightedCountryCode, selectedCountryCode } = props;
+  const { onCountrySelect, onCountryHover, hoveredCountryCode, selectedCountryCode } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<GlobeSceneApi | null>(null);
@@ -56,14 +56,23 @@ function GlobeViewer(props: GlobeViewerProps) {
   }, [countries, onCountrySelect, onCountryHover]);
 
   useEffect(() => {
-    sceneRef.current?.setHighlightedCountry(highlightedCountryCode ?? null);
-  }, [highlightedCountryCode]);
+    const scene = sceneRef.current;
+    if (!scene || !countries?.length) return;
+    scene.setHighlightedCountry(selectedCountryCode ?? null);
+  }, [selectedCountryCode, countries]);
 
   useEffect(() => {
-    if (selectedCountryCode && countries?.length) {
-      sceneRef.current?.rotateToCountry(selectedCountryCode);
-    }
+    if (!selectedCountryCode || !countries?.length) return;
+    const scene = sceneRef.current;
+    if (!scene) return;
+    scene.rotateToCountry(selectedCountryCode);
   }, [selectedCountryCode, countries]);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+    scene.setHoverCountry(hoveredCountryCode ?? null);
+  }, [hoveredCountryCode]);
 
   if (error) {
     return (
