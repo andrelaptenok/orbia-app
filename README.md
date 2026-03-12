@@ -1,73 +1,95 @@
-# React + TypeScript + Vite
+### Orbia – Interactive World Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Orbia is a React + TypeScript app for exploring countries of the world via an interactive 3D globe and a data‑driven table.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## React Compiler
+- **3D globe** built with Three.js and `three-kvy-core`
+- **Interactive markers** for each country (click to select, hover to highlight)
+- **Country details** (flag, capital, region, population, languages, codes)
+- **Table view** with search, filters, sorting and virtualization
+- **URL sync** – selected country is reflected in `?country=XX`
+- **Responsive UI** – works on desktop and mobile
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Core**: React 19, TypeScript, Vite
+- **3D**: `three`, `@vladkrutenyuk/three-kvy-core`, `camera-controls`
+- **Data**: REST Countries API + `@tanstack/react-query`
+- **Table**: `@tanstack/react-table`, `@tanstack/react-virtual`
+- **Styling**: Tailwind CSS v4, CSS modules, `clsx` + `tailwind-merge`
+- **Tooling**: ESLint (flat config), Prettier
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Run dev server
+npm run dev
+# App will be available at http://localhost:5173
+
+# 3. Lint & format (optional)
+npm run lint
+npm run format
+npm run format:fix
+
+# 4. Production build & preview
+npm run build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Requirements: Node ≥ 20.11.0, npm ≥ 10.2.4.
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+---
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+## Project Structure
+
+```text
+src/
+  app/                    # App shell, router
+  pages/                  # Route-level pages (Home)
+  widgets/
+    country-explorer/     # Main UI: globe + table + details
+      model/              # useCountryExplorer, URL & layout logic
+      ui/                 # CountryExplorer, header, tabs, skeletons
+  features/
+    country-globe/        # GlobeViewer (3D viewer)
+    country-table/        # CountryTable, table logic
+    country-list/         # Optional list UI
+  entities/
+    country/              # Country types, API, useCountries, detail panel
+  shared/
+    api/                  # API client wrapper
+    three/                # Globe scene, mesh, markers, camera, resize
+    ui/                   # Button, ErrorBoundary, ErrorFallback
+    lib/                  # cn(), useDebouncedValue()
+    assets/               # earth.webp and other shared assets
+  index.css               # Global theme and background
+  main.tsx                # App entry
 ```
+
+---
+
+## How It Works
+
+- On startup, `CountryExplorer`:
+  - Loads country data via `useCountries` (React Query).
+  - Renders a table with search/filters and a 3D globe side by side.
+- `GlobeViewer`:
+  - Lazily loads the 3D chunk.
+  - Mounts a Three.js scene (`globeScene`) into a container.
+  - Synchronizes selection/hover from the table with globe markers.
+- Selecting a country (from the table or globe):
+  - Updates the URL (`?country=XX`),
+  - Rotates the globe to the country,
+  - Shows a detail panel with country information.
+
+
