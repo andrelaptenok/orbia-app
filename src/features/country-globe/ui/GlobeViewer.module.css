@@ -1,0 +1,15 @@
+.globeContainer {
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  background-color: #020617;
+}
+
+.globeContainer :global(canvas) {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  touch-action: none;
+}
