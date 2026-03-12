@@ -50,6 +50,32 @@ Requirements: Node ≥ 20.11.0, npm ≥ 10.2.4.
 
 ---
 
+## Deploying to Vercel
+
+This project is ready to deploy on Vercel:
+
+- `vercel.json` contains a SPA rewrite rule so that all routes (except static assets and SEO files) are served through the React app:
+
+```json
+{
+  "rewrites": [
+    {
+      "source": "/((?!robots.txt|sitemap.xml|assets/.*).*)",
+      "destination": "/"
+    }
+  ]
+}
+```
+
+To deploy:
+
+1. Push the repository to GitHub/GitLab/Bitbucket.
+2. In Vercel, create a new project and link this repo.
+3. Vercel will auto‑detect Vite and run `npm install` + `npm run build`.
+4. The app will be served from the `dist` output; client‑side routing will work for deep links.
+
+---
+
 ## Project Structure
 
 ```text
